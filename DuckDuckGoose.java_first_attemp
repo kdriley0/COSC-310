@@ -1,0 +1,122 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Projects;
+
+import collection.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
+/**
+ *
+ * @author kevin
+ */
+public class DuckDuckGoose 
+{
+    /**
+ *
+ * declaring variables 
+ */
+     static CirclularLinkedList<Kid> g = new CirclularLinkedList<Kid>();
+    static DuckDuckGoose game = new DuckDuckGoose();
+    static String name;
+    static boolean gender;// 0 for male 1 for female 
+    static int age;
+    
+          private class Kid{
+      private Kid kid;        //reference to the kid stored in the node
+      private Kid next;     //reference to the subsequent kid in the game
+      
+    
+    int age;
+    boolean gender;
+    String name;
+    double bordem;
+    
+      
+     Kid(String n, boolean g,int a, Kid nx)
+     {
+         age =a;
+         gender = g;
+         name =n;
+         bordem =0; 
+         next= nx;
+
+     }
+
+      public Kid getElement(){return kid;}
+      public Kid getNext(){return next; }
+      public void setNext(Kid n) { next=n;}
+  }
+      private Kid tail=null;
+      private int size =0;
+      
+      public DuckDuckGoose(){}//creates a game
+      //access methods 
+      public int getSize() {return size;}
+      public boolean isEmpty(){return size== 0;}
+      public Kid first(){ //return the first kid if not empty does not remove
+          if(isEmpty()) return null;
+          return tail.getNext().getElement();//the "head is after the tail
+      }
+      public Kid last(){//returns but does not remove the last element 
+          if(isEmpty()) return null;
+           return tail.getElement();
+      }
+      // update methods 
+      public void rotate(){
+          if (tail != null)// if empty do nothing
+          tail=tail.getNext();// the old head becomes the tail 
+      }
+      public void addFirst(String n,boolean g, int a, Kid nx){// adds a kid  to the front of the list
+          if(size == 0){
+              tail=new Kid(n, g, a, null);
+              tail.setNext(tail);   // links ro itself circularly 
+          }else {
+             Kid newest = new Kid(n, g, a, tail.getNext());
+             tail.setNext(newest);
+          }
+          size++; 
+      }
+      
+      public Kid removeFirst(){       //removes and returns the first element
+          if(isEmpty()) return null;//nothing to remove 
+          Kid head = tail.getNext();
+          if(head == tail) tail=null;//only one element 
+          else tail.setNext(head.getNext());//removes the "head" from the list
+          size--;
+          return head.getElement();
+              
+          
+      }
+      public String toString()
+      {
+          String out ="";
+          Kid ref=tail;
+          
+          while(ref.next!=tail)
+          {
+              out+=ref.name+ref.gender+ref.age;
+              ref=ref.next;
+          }
+          
+          return out;
+      }
+     
+         
+          
+      }
+      public static void test()  throws IOException
+
+      {
+        Kid gs = new Kid("g", True, 1);
+          game.startGame();
+          System.out.println(g.toString());
+      }
+    
+}
+
+
